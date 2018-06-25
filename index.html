@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script src="main.js"></script>
+	<script>
+
+		var emitter = new EventEmitter();
+
+		function handleOne(a, b, c) {
+			console.log('第一个监听函数', a, b, c)
+		}
+
+		function handleSecond(a, b, c) {
+			console.log('第二个监听函数', a, b, c)
+		}
+
+		function handleThird(a, b, c) {
+			console.log('第三个监听函数', a, b, c)
+		}
+
+		emitter.on("demo", handleOne)
+		.once("demo", handleSecond)
+		.on("demo", handleThird);
+
+		emitter.emit('demo', [1, 2, 3]);
+		emitter.off('demo', handleThird);
+		emitter.emit('demo', [1, 2, 3]);
+		// => 第一个监听函数 1 2 3
+
+		emitter.allOff();
+		emitter.emit('demo', [1, 2, 3]);
+		// nothing
+
+
+
+	// 	function box(){
+	// 		this.events={};	
+	// 	}
+
+	// 	box.prototype={
+	// 			constructor:box,
+	// 			show: function (){
+	// 	        this.emit('show');
+	// 	    },
+	// 	    //关闭方法
+	// 	    close: function (handler){
+	// 	        this.off('show',handler);
+	// 	    },
+	// 			//绑定模拟addEventListener,其中type为事件函数，handler为需要触发的函数。
+	// 			on:function(type,handler){
+	// 				if(this.events[type]===void 0){
+	// 					this.events[type]=[]
+	// 				}
+	// 				this.events[type].push(handler);
+	// 			},
+	// 			//移除绑定
+	// 			off:function(type,handler){
+	// 				if (this.events[type] instanceof Array){ 
+ //            var handlers = this.events[type]; 
+ //            for (var i=0, len=handlers.length; i < len; i++){ 
+ //                if (handlers[i] === handler){ 
+ //                    break;
+ //                 }
+ //             }
+ //             handlers.splice(i, 1); 
+ //          }
+	// 			},
+	// 			//触发绑定
+	// 			emit:function(type){
+	// 				var handlers=this.events[type];
+	// 				for (var i = 0; i < handlers.length; i++) {
+	// 					handlers[i].call(undefined);
+	// 				}
+	// 			}
+	// }
+
+	// var box1 = new box();
+	// function listenShow1(){
+	// 	console.log(11);
+	// }
+	// function listenShow2(){
+	// 	console.log(22);
+	// }
+	// box1.on('show',listenShow1);
+	// box1.on('show',listenShow1);
+	// box1.on('show',listenShow2);
+	// box1.show()
+	// box1.close(listenShow1)
+	// box1.close(listenShow2)
+
+</script>
+
+</body>
+</html>
